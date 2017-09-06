@@ -1,0 +1,16 @@
+{
+  "name": "amazon-request-forwarder",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.coffee",
+  "scripts": {},
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bluebird": "^3.5.0",
+    "bluebird-retry": "^0.11.0",
+    "request-promise": "^4.2.1",
+    "uuid": "^3.1.0",
+    "winston": "^2.3.1"
+  }
+}
