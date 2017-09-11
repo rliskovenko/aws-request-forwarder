@@ -1,0 +1,7 @@
+apps:
+  - app:
+    name: request-forwarder
+    interpreter: /usr/bin/coffee
+    script: src/server.coffee
+    autorestart: true
+    log_date_format: YYYY-MM-DD HH:mm
