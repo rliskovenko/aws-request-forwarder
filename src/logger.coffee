@@ -18,7 +18,7 @@ log = () ->
 					name    : 'file-debug'
 					filename: 'logs/server.dbg'
 			]
-		logger.info 'Logging subsystem initialized'
+		logger.debug 'Logging subsystem initialized'
 	return logger
 
 module.exports = log

@@ -1,3 +1,5 @@
 *.js
 logs/
-node_modlules/
+node_modules/
+.idea/
+*.iml
