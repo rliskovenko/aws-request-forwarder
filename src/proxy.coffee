@@ -3,6 +3,7 @@ os = require 'os'
 http = require 'http'
 url = require 'url'
 
+_= require 'lodash'
 uuid = require 'uuid/v4'
 R = require 'request-promise'
 P = require 'bluebird'
@@ -22,9 +23,10 @@ log = new Logger()
 processRequest = ( req, id ) ->
 	return retry () ->
 					log.debug "Trying request id: #{id}"
-					R "http://#{proxyTo}#{req.url}",
-							headers: req.headers
-							method: req.method
+					R
+						url: "http://#{proxyTo}#{req.url}"
+						headers: req.headers
+						method: req.method
 				, { interval: 50, backoff: 1.5, max_tries: 10, throw_original: true }
 
 
@@ -45,6 +47,7 @@ else
 		.then ( reply ) ->
 			log.info "Succeed request id: #{id}"
 			res.statusCode= 200
+			res.setHeader 'Content-Type', 'application/json;charset=utf-8'
 			res.write reply
 		.catch ( err ) ->
 			log.warn "Failed request id: #{id}", err
