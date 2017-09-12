@@ -23,9 +23,12 @@ log = new Logger()
 processRequest = ( req, id ) ->
 	return retry () ->
 					log.debug "Trying request id: #{id}"
+					hdrKey = _.filter req.rawHeaders, ( v, i ) -> i % 2 == 0
+					hdrVal = _.filter req.rawHeaders, ( v, i ) -> i % 2 != 0
+					hdrs = _.zipObject hdrKey, hdrVal
 					R
 						url: "http://#{proxyTo}#{req.url}"
-						headers: req.headers
+						headers: hdrs
 						method: req.method
 				, { interval: 50, backoff: 1.5, max_tries: 10, throw_original: true }
 
@@ -46,12 +49,12 @@ else
 		processRequest req, id
 		.then ( reply ) ->
 			log.info "Succeed request id: #{id}"
-			res.statusCode= 200
+			res.statusCode = 200
 			res.setHeader 'Content-Type', 'application/json;charset=utf-8'
 			res.write reply
 		.catch ( err ) ->
 			log.warn "Failed request id: #{id}", err
-			res.statusCode = err.statusCode
+			res.statusCode = err.statusCode || 400
 			res.write err.stack
 		.finally () ->
 			res.end()
